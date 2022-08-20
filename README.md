@@ -5,8 +5,8 @@
 # Testnet detayları
 Aptos AIT 3 testnetine dünya genelinden 225 kişi seçilecek.Her bir katılımcı 800 aptos token kazanacak. Daha iyi performans gösteren bazı katılımcılar ek 200 aptos token daha kazanacak.
 
-[Daha fazla detay için medium makalesi](https://aptoslabs.medium.com/welcome-to-aptos-incentivized-testnet-3-9d7ce888205c)
-
+* [Daha fazla detay için medium makalesi](https://aptoslabs.medium.com/welcome-to-aptos-incentivized-testnet-3-9d7ce888205c)
+* Aptos hakkında soruları [Discord kanalında konuşalım](discord.gg/ruescommunity)
 
 # Sistem gereksinimleri
 ```
@@ -18,40 +18,40 @@ Disk: 300GB ssd
 
 # Node kurulumu
 
-## 1- root yetkisi kazanırız.
+## root yetkisi kazanırız.
 ```
 sudo su
 ```
 
-## 2- root dizini altına gideriz.
+## root dizini altına gideriz.
 ```
 cd /root
 ```
 
-## 3- Sistem güncellemesi yapıyoruz.
+## Sistem güncellemesi yapıyoruz.
 ```
 sudo apt update && sudo apt upgrade -y
 ```
 
-## 4- Gerekli kütüphanelerin kurulumunu yapıyoruz.
+## Gerekli kütüphanelerin kurulumunu yapıyoruz.
 ```
 sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu gcc git jq chrony unzip liblz4-tool -y
 ```
 
-## 5- Docker kurulumu yapıyoruz.
+## Docker kurulumu yapıyoruz.
 ```
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 ```
 
-## 6- Docker compose kurulumu yapıyoruz.
+## Docker compose kurulumu yapıyoruz.
 ```
 curl -SL https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 ```
 
-## 7- Aptos'u indiriyoruz.
+## Aptos'u indiriyoruz.
 ```
 wget -qO aptos-cli.zip https://github.com/aptos-labs/aptos-core/releases/download/aptos-cli-v0.3.1/aptos-cli-0.3.1-Ubuntu-x86_64.zip
 unzip -o aptos-cli.zip
@@ -59,26 +59,26 @@ chmod +x aptos
 mv aptos /usr/local/bin
 ```
 
-## 8- Varsayılan kullanıcımızın ana dizininde aptoss isimli bir dizin oluşturuyoruz (Bizde root) ve içine giriyoruz.
+## Varsayılan kullanıcımızın ana dizininde aptoss isimli bir dizin oluşturuyoruz (Bizde root) ve içine giriyoruz.
 ```
 mkdir -p ~/aptoss
 cd ~/aptoss
 ```
 
-## 9- validator.yaml ve docker-compose.yaml config dosyalarını indiriyoruz.
+## validator.yaml ve docker-compose.yaml config dosyalarını indiriyoruz.
 ```
 cd ~/aptoss
 wget https://raw.githubusercontent.com/mmc6185/node-testnets/main/aptos/Aptos%20AIT%203/docker-compose.yaml
 wget https://raw.githubusercontent.com/mmc6185/node-testnets/main/aptos/Aptos%20AIT%203/validator.yaml
 ```
 
-## 10- ~/aptoss/keys dizinimizde node owner key, consensus key ve networking key Oluşturuyoruz.
+## ~/aptoss/keys dizinimizde node owner key, consensus key ve networking key Oluşturuyoruz.
 ```
 aptos genesis generate-keys --output-dir  ~/aptoss/keys
 ```
 ![image](https://user-images.githubusercontent.com/73015593/185751077-6dddccd4-83d4-43f4-8b1f-0d80d51642bf.png)
 
-## 11- Validator bilgilerini yapılandırıyoruz. NodeName kısmına node ismimizi giriyoruz. ~/aptoss klasörü altında girdiğimiz NodeName ile bir klasör oluşuyor.
+## Validator bilgilerini yapılandırıyoruz. NodeName kısmına node ismimizi giriyoruz. ~/aptoss klasörü altında girdiğimiz NodeName ile bir klasör oluşuyor.
 ```
 IPADDR=$(curl icanhazip.com)
 cd ~/aptoss
@@ -91,7 +91,7 @@ aptos genesis set-validator-configuration \
 ```
 ![image](https://user-images.githubusercontent.com/73015593/185748828-5cb506b1-a2a0-447c-a00b-f5f3b8f89414.png)
 
-## 12- Aptos validatorSet'teki node'u tanımlayan layout.yaml dosyası oluşturuyoruz. NodeName kısmına validator bilgilerini yapılandırırken girdiğimiz ismi giriyoruz.
+##  Aptos validatorSet'teki node'u tanımlayan layout.yaml dosyası oluşturuyoruz. NodeName kısmına validator bilgilerini yapılandırırken girdiğimiz ismi giriyoruz.
 ```
 echo "root_key: "D04470F43AB6AEAA4EB616B72128881EEF77346F2075FFE68E14BA7DEBD8095E"
 users: ["NodeName"]
@@ -110,51 +110,51 @@ voting_power_increase_limit: 20" >layout.yaml
 ```
 ![image](https://user-images.githubusercontent.com/73015593/185750753-2ab59e84-c10b-4360-a9cb-97d78d7182cf.png)
 
-## 13- AptosFramework Move paketini ~/$aptoss dizinine framework.mrb olarak indiriyoruz.
+## AptosFramework Move paketini ~/$aptoss dizinine framework.mrb olarak indiriyoruz.
 ```
 wget https://github.com/aptos-labs/aptos-core/releases/download/aptos-framework-v0.3.0/framework.mrb -P ~/aptoss
 ```
 ![image](https://user-images.githubusercontent.com/73015593/185749237-651894d3-6376-46bb-8520-5a480a5e116a.png)
 
-## 14- Genesis blob ve waypoint compile ediyoruz.
+## Genesis blob ve waypoint compile ediyoruz.
 ```
 aptos genesis generate-genesis --local-repository-dir ~/aptoss --output-dir ~/aptoss
 ```
 ![image](https://user-images.githubusercontent.com/73015593/185750839-65aee241-32c1-4b1b-9064-8493f9efb374.png)
 
-## 15- Docker başlatıyoruz.
+## Docker başlatıyoruz.
 ```
 docker-compose down -v
 docker-compose up -d
 ```
 
-## 16- Sitemize giderek aptos node durumumuza bakıyoruz [LINK](https://node.aptos.zvalid.com/). (Görseldeki gibi bir çıktı almanız lazım)
+## Sitemize giderek aptos node durumumuza bakıyoruz [LINK](https://node.aptos.zvalid.com/). (Görseldeki gibi bir çıktı almanız lazım)
 ![image](https://user-images.githubusercontent.com/73015593/185756564-77fc1420-da9a-4f23-9de6-c384737a2d75.png)
 
 # Testnet registration
-## 1- Tüm işlemler doğruysa (aptoslabs)[https://aptoslabs.com/community] sitesine giderek GET STARTED diyoruz.
+## Tüm işlemler doğruysa (aptoslabs)[https://aptoslabs.com/community] sitesine giderek GET STARTED diyoruz.
 ![image](https://user-images.githubusercontent.com/73015593/185756923-95c0e568-8d17-4491-9b08-15831da44151.png)
 
-## 2- Aptos lab github'ından petra wallet indiriyoruz. [LINK](https://github.com/aptos-labs/aptos-core/releases/download/wallet-v0.1.6/wallet-extension.zip)
+##  Aptos lab github'ından petra wallet indiriyoruz. [LINK](https://github.com/aptos-labs/aptos-core/releases/download/wallet-v0.1.6/wallet-extension.zip)
 
-## 3- İndirdiğimiz zipli klasörü winrar gibi bir unzip aracı ile çıkartıyoruz. 
+##  İndirdiğimiz zipli klasörü winrar gibi bir unzip aracı ile çıkartıyoruz. 
 ![image](https://user-images.githubusercontent.com/73015593/185758793-4347bfd8-587f-41e2-897c-e32daf5b99f8.png)
 
-## 4- Connect wallet kısmı için wallet eklememiz gerekiyor.
+## Connect wallet kısmı için wallet eklememiz gerekiyor.
 ![image](https://user-images.githubusercontent.com/73015593/185757229-7d458615-2666-4a3d-81e9-953c7fd1e694.png)
 
-## 5- (Chrome extensions)[chrome://extensions/] adresine gidiyoruz.
+## (Chrome extensions)[chrome://extensions/] adresine gidiyoruz.
 
-## 6- Sağ üstten geliştirici modunu açıyoruz.
+##  Sağ üstten geliştirici modunu açıyoruz.
 ![image](https://user-images.githubusercontent.com/73015593/185757293-4e716003-bfd6-4a85-8945-25aa3d830873.png)
 
-## 7- Sol üstten paketlenmemiş öğe yükle seçiyoruz. ve zipten çıkardığımız cüzdan klasörünü yüklüyoruz.(varsayılan klasör ismi build)
+##  Sol üstten paketlenmemiş öğe yükle seçiyoruz. ve zipten çıkardığımız cüzdan klasörünü yüklüyoruz.(varsayılan klasör ismi build)
 ![image](https://user-images.githubusercontent.com/73015593/185757360-2a15e493-bbe1-45f4-a001-a9cc1357e422.png)
 
-## 8- Petra Aptos wallet eklentilerde gözüküyor. Ardından cüzdan oluşturuyoruz. [aptoslabs](https://aptoslabs.com/it3) sitesine giderek cüzdanımızı bağlıyoruz. 
+## Petra Aptos wallet eklentilerde gözüküyor. Ardından cüzdan oluşturuyoruz. [aptoslabs](https://aptoslabs.com/it3) sitesine giderek cüzdanımızı bağlıyoruz. 
 ![image](https://user-images.githubusercontent.com/73015593/185758968-1553f391-6703-4be2-b63a-00b48af88de7.png)
 
-## 9- NODE REGISTRATION kısmında gireceğimiz bilgileri öğreniyoruz. (NodeName kısmına kendi klasör ismimizi giriyoruz. API PORT Kısmına 80 yazıyoruz.)
+##  NODE REGISTRATION kısmında gireceğimiz bilgileri öğreniyoruz. (NodeName kısmına kendi klasör ismimizi giriyoruz. API PORT Kısmına 80 yazıyoruz.)
 ```
 cat $HOME/aptoss/NodeName/operator.yaml
 ```
